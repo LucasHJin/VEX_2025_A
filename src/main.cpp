@@ -58,9 +58,10 @@ void runForTime(void (*func)(), int timeMillis) {
 
 void intakeAuto() {
   runForTime(intakeForwardSlow, 1000);
-  runForTime(intakeForwardFast, 750);
-  runForTime(intakeBackwardSlow, 500);
   runForTime(intakeForwardFast, 500);
+  runForTime(intakeBackwardSlow, 400);
+  runForTime(intakeForwardFast, 1200);
+  intakeStop();
 }
 
 /*---------------------------------------------------------------------------*/
