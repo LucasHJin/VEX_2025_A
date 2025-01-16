@@ -35,16 +35,16 @@ void stopDriving() {
   RightForwardDrive.spin(forward, 0, percent);
 }
 void intakeForwardSlow() {
-  IntakeMotor.spin(forward, 45, percent);
+  IntakeMotor.spin(forward, -45, percent);
 }
 void intakeForwardFast() {
-  IntakeMotor.spin(forward, 75, percent);
+  IntakeMotor.spin(forward, -75, percent);
 }
 void intakeBackwardSlow() {
-  IntakeMotor.spin(forward, -34, percent);
+  IntakeMotor.spin(forward, 45, percent);
 }
 void intakeBackwardFast() {
-  IntakeMotor.spin(forward, -75, percent);
+  IntakeMotor.spin(forward, 75, percent);
 }
 void intakeStop() {
   IntakeMotor.stop();
