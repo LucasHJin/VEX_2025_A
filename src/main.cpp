@@ -129,6 +129,9 @@ void teleop(void) {
     Controller1.ButtonL1.pressed(intakeBackwardSlow);
     Controller1.ButtonL2.pressed(intakeBackwardFast);
     Controller1.ButtonR1.released(intakeStop);
+    Controller1.ButtonR2.released(intakeStop);
+    Controller1.ButtonL1.released(intakeStop);
+    Controller1.ButtonL2.released(intakeStop);
 
     Controller1.ButtonA.pressed(intakeAuto);
 
