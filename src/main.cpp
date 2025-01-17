@@ -18,6 +18,7 @@ competition Competition;
 // define your global instances of motors and other devices here
 brain Brain;
 controller Controller1 = controller(primary);
+digital_out pneumaticPort(Brain.ThreeWirePort.A);
 
 // drivetrain initialization
 motor LeftForwardDrive = motor(PORT2, ratio6_1, false);
@@ -60,9 +61,26 @@ void intakeAuto() {
   runForTime(intakeForwardSlow, 1000);
   runForTime(intakeForwardFast, 500);
   runForTime(intakeBackwardSlow, 400);
-  runForTime(intakeForwardFast, 1200);
+  runForTime(intakeForwardFast, 1000);
   intakeStop();
 }
+
+void turn90right() {
+  LeftForwardDrive.spin(forward, 75, percent);
+  RightForwardDrive.spin(forward, -75, percent);
+}
+
+void turn90left() {
+  LeftForwardDrive.spin(forward, -75, percent);
+  RightForwardDrive.spin(forward, 75, percent);
+}
+
+void pneumaticAuto() {
+  pneumaticPort.set(true);
+  wait(1000, msec);
+  pneumaticPort.set(false);
+}
+
 
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
@@ -91,6 +109,7 @@ void pre_auton(void) {
 /*---------------------------------------------------------------------------*/
 
 void autonomous(void) {
+  pneumaticPort.set(false); // start retracted
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
@@ -107,6 +126,7 @@ void autonomous(void) {
 /*---------------------------------------------------------------------------*/
 
 void teleop(void) {
+  pneumaticPort.set(false); // start retracted
   // User control code here, inside the loop
   while (1) {
     // This is the main execution loop for the user control program.
@@ -135,6 +155,8 @@ void teleop(void) {
     Controller1.ButtonL2.released(intakeStop);
 
     Controller1.ButtonA.pressed(intakeAuto);
+
+    Controller1.ButtonB.pressed(pneumaticAuto);
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
