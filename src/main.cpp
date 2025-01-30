@@ -75,11 +75,14 @@ void turn90left() {
   RightForwardDrive.spin(forward, 75, percent);
 }
 
-void pneumaticAuto() {
+void pneumaticOut() {
   pneumaticPort.set(true);
-  wait(1000, msec);
+}
+
+void pneumaticIn() {
   pneumaticPort.set(false);
 }
+
 
 
 /*---------------------------------------------------------------------------*/
@@ -156,7 +159,8 @@ void teleop(void) {
 
     Controller1.ButtonA.pressed(intakeAuto);
 
-    Controller1.ButtonB.pressed(pneumaticAuto);
+    Controller1.ButtonUp.pressed(pneumaticOut);
+    Controller1.ButtonDown.pressed(pneumaticIn);
 
     wait(20, msec); // Sleep the task for a short amount of time to
                     // prevent wasted resources.
