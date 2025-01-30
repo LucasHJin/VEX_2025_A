@@ -35,6 +35,11 @@ void stopDriving() {
   LeftForwardDrive.spin(forward, 0, percent);
   RightForwardDrive.spin(forward, 0, percent);
 }
+void driveBackward() {
+  LeftForwardDrive.spin(forward, -75, percent);
+  RightForwardDrive.spin(forward, -75, percent);
+}
+
 void intakeForwardSlow() {
   IntakeMotor.spin(forward, -45, percent);
 }
@@ -57,20 +62,39 @@ void runForTime(void (*func)(), int timeMillis) {
   wait(timeMillis, msec);
 }
 
+
+void autoStakeScore() {
+  runForTime(turnLeft, 800);
+  runForTime(driveBackward, 1000);
+  pneumaticOut();
+  intakeAutoLess();
+  runForTime(turnRight, 400);
+  runForTime(driveForward, 1000);
+  intakeAuto();
+}
+
 void intakeAuto() {
   runForTime(intakeForwardSlow, 1000);
   runForTime(intakeForwardFast, 500);
   runForTime(intakeBackwardSlow, 400);
-  runForTime(intakeForwardFast, 1000);
+  runForTime(intakeForwardFast, 900);
   intakeStop();
 }
 
-void turn90right() {
+void intakeAutoLess() {
+  runForTime(intakeForwardSlow, 600);
+  runForTime(intakeForwardFast, 500);
+  runForTime(intakeBackwardSlow, 400);
+  runForTime(intakeForwardFast, 900);
+  intakeStop();
+}
+
+void turnRight() {
   LeftForwardDrive.spin(forward, 75, percent);
   RightForwardDrive.spin(forward, -75, percent);
 }
 
-void turn90left() {
+void turnLeft() {
   LeftForwardDrive.spin(forward, -75, percent);
   RightForwardDrive.spin(forward, 75, percent);
 }
@@ -116,6 +140,7 @@ void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
+  autoStakeScore();
 }
 
 /*---------------------------------------------------------------------------*/
