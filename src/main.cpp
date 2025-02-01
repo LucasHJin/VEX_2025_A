@@ -32,8 +32,8 @@ void driveForward() {
   RightForwardDrive.spin(forward, 75, percent);
 }
 void driveForwardSlower() {
-  LeftForwardDrive.spin(forward, 45, percent);
-  RightForwardDrive.spin(forward, 45, percent);
+  LeftForwardDrive.spin(forward, 30, percent);
+  RightForwardDrive.spin(forward, 30, percent);
 }
 void stopDriving() {
   LeftForwardDrive.spin(forward, 0, percent);
@@ -42,6 +42,10 @@ void stopDriving() {
 void driveBackward() {
   LeftForwardDrive.spin(forward, -75, percent);
   RightForwardDrive.spin(forward, -75, percent);
+}
+
+void intakeForwardVerySlow() {
+  IntakeMotor.spin(forward, -17.5, percent);
 }
 
 void intakeForwardSlow() {
@@ -67,18 +71,23 @@ void runForTime(void (*func)(), int timeMillis) {
 }
 
 void intakeAuto() {
-  runForTime(intakeForwardSlow, 1000);
-  runForTime(intakeForwardFast, 500);
-  runForTime(intakeBackwardSlow, 400);
+  runForTime(intakeForwardVerySlow, 750);
+  runForTime(intakeForwardSlow, 350);
+  runForTime(intakeForwardFast, 700);
+  intakeStop();
+  wait(400, msec);
+  runForTime(intakeBackwardSlow, 400); 
   runForTime(intakeForwardFast, 900);
   intakeStop();
 }
 
 void intakeAutoLess() {
-  runForTime(intakeForwardSlow, 600);
-  runForTime(intakeForwardFast, 500);
-  runForTime(intakeBackwardSlow, 400);
-  runForTime(intakeForwardFast, 850);
+  runForTime(intakeForwardSlow, 150);
+  runForTime(intakeForwardFast, 700);
+  intakeStop();
+  wait(400, msec);
+  runForTime(intakeBackwardSlow, 400); 
+  runForTime(intakeForwardFast, 900);
   intakeStop();
 }
 
@@ -135,6 +144,33 @@ void autoStakeScoreLeft() {
   runForTime(driveBackward, 2000);
 }
 
+void easyAuto() {
+  runForTime(driveBackward, 1100);
+  stopDriving();
+  pneumaticOut();
+  runForTime(driveForwardSlower, 680);
+  stopDriving();
+  intakeAutoLess();
+  pneumaticIn();
+  runForTime(driveForwardSlower, 500);
+  runForTime(turnLeft, 515);
+  stopDriving();
+  runForTime(driveForward, 900);
+  stopDriving();
+  runForTime(intakeForwardSlow, 800);
+  runForTime(intakeForwardVerySlow, 1500);
+  intakeStop();
+  runForTime(turnRight, 305);
+  stopDriving();
+  runForTime(driveBackward, 820);
+  stopDriving();
+  pneumaticOut();
+  runForTime(driveForwardSlower, 575);
+  stopDriving();
+  runForTime(intakeForwardSlow, 200);
+  intakeAutoLess();
+}
+
 /*---------------------------------------------------------------------------*/
 /*                          Pre-Autonomous Functions                         */
 /*                                                                           */
@@ -166,7 +202,8 @@ void autonomous(void) {
   // ..........................................................................
   // Insert autonomous user code here.
   // ..........................................................................
-  autoStakeScoreRight();
+  //autoStakeScoreRight();
+  easyAuto();
 }
 
 /*---------------------------------------------------------------------------*/
@@ -203,10 +240,16 @@ void teleop(void) {
     Controller1.ButtonR2.pressed(intakeForwardFast);
     Controller1.ButtonL1.pressed(intakeBackwardSlow);
     Controller1.ButtonL2.pressed(intakeBackwardFast);
+    Controller1.ButtonX.pressed(intakeForwardVerySlow);
+    Controller1.ButtonY.pressed(intakeAutoLess);
     Controller1.ButtonR1.released(intakeStop);
     Controller1.ButtonR2.released(intakeStop);
     Controller1.ButtonL1.released(intakeStop);
     Controller1.ButtonL2.released(intakeStop);
+    Controller1.ButtonX.released(intakeStop);
+    Controller1.ButtonY.released(intakeStop);
+
+
 
     Controller1.ButtonA.pressed(intakeAuto);
 
